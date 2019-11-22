@@ -1,0 +1,15 @@
+name = "GJK_Reference"
+uuid = "cde6f6a3-d2b9-5ffa-a9df-f1a1b8223d60"
+authors = ["Gustavo Goretkin <gustavo.goretkin@gmail.com>"]
+version = "0.1.1"
+
+[deps]
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
+
+[compat]
+julia = "^1"
