@@ -45,7 +45,7 @@ int sac_qhull( int npts, const double (*input_array)[DIM],
   for ( v=0 ; v<npts ; v++ )
     for ( d=0 ; d<DIM ; d++ )
       array[v][d] = input_array[v][d];
-  
+
   ismalloc= False; 	/* True if qh_freeqhull should 'free(array)' */
 
   qh_init_A (stdin, stdout, stderr, 0, NULL);
@@ -70,8 +70,8 @@ int sac_qhull( int npts, const double (*input_array)[DIM],
 	    faces[numf][d] = facet->normal[d];
 	  faces[numf++][3] = facet->offset;
 	}
-	  
-	new_facet(); 
+
+	new_facet();
 
 	FOREACHvertex_( facet->vertices)
 	  {
@@ -263,7 +263,7 @@ static int construct_hull( double (*points)[3], int * num_rings, int rings[])
 	    points[vertex_map[vertex->id]][d] = vertex->point[d];
 	}
     }
-    
+
   nexte = num_vertices;
   num_actual_half_edges = 0;
   /* now process the half-edges */
@@ -332,7 +332,7 @@ static int construct_hull( double (*points)[3], int * num_rings, int rings[])
       exit( 1);
     }
 
-  
+
   if ( num_rings!=0 )
     * num_rings = nexte;
   return num_vertices;

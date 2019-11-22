@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-/* Demo program for the Oxford University Computing Laboratory 
+/* Demo program for the Oxford University Computing Laboratory
    implementation of Gilbert, Johnson and Keerthi's algorithm for
    computing the minimum distance between two convex polyhedra.
 
@@ -17,7 +17,7 @@
 	1.4	For v2.4, July 1998.
 
    The program usage is
-   
+
       gjkdemo [-h] [-H] [-Rfactor] [-Tfactor] [-qN] [-Q] [-rrepeats]
       	[-iinstances] [ -sseed ] [-x] n_runs [ n_pts ]
 
@@ -68,7 +68,7 @@
 
 /*
    A Note on Array Sizes:
-   
+
    Euler's formula relates the numver of vertices, edges and faces in
    a convex polyhedron as
    	V - E + F = 2
@@ -87,9 +87,9 @@
    end of each ring, and an entry for each half-edge, and therefore the
    ring arrays are bounded in size by 8V.
    */
-   
 
-   
+
+
 #include "gjk.h"
 
 int
@@ -131,7 +131,7 @@ struct transf { double matrix[DIM][DIM+1]; };
 /* this vector is the constant vector by which one of the hulls is
    shifted for each distinct instance.
    */
-static const REAL delta_vector[3] = 	{ 1, -0.5, -1 }; 
+static const REAL delta_vector[3] = 	{ 1, -0.5, -1 };
 
 /* External functions, not declared in gjk.h */
 #ifdef QHULL
@@ -277,7 +277,7 @@ int main( int argc, char ** argv)
 	   quiet = 1;
 	   if ( argv[1][2]!=0 )
 	     tick_frequency = atol( argv[1]+2);
-	 }       
+	 }
 
 #ifdef QHULL
        else if ( !strcmp( "-Q", argv[1]) )
@@ -289,13 +289,13 @@ int main( int argc, char ** argv)
 	   rotating = 1;
 	   if ( argv[1][2]!=0 )
 	     rotation_factor = atof( argv[1]+2);
-	 }       
-       
+	 }
+
        else if ( !strncmp( "-T", argv[1], 2) )
 	 {
 	   if ( argv[1][2]!=(char) '\0' )
 	     shift_factor = atof( argv[1]+2);
-	 }       
+	 }
 
        else if ( !strncmp( "-r", argv[1], 2) )
 	 num_repeats = atoi( argv[1]+2);
@@ -335,7 +335,7 @@ int main( int argc, char ** argv)
 	    "\toperation counters NOT in use\n"
 #endif
 	    ,
-            num_runs, num_instances, num_repeats, 
+            num_runs, num_instances, num_repeats,
 	    num_pts, ( use_polyballs ) ? "polyball" : "hull", original_seed,
 	              ( allow_hill_climbing ? "enabled" : "disabled" ) );
 
@@ -379,7 +379,7 @@ int main( int argc, char ** argv)
    initial_time = clocktime();
 
    /* Now the main loop to run GJK itself */
-   
+
    repeat = 0;  instance = 0;  run = 0;   seed = original_seed;
 
    while ( run<num_runs )
@@ -443,7 +443,7 @@ int main( int argc, char ** argv)
        compose_transformations( &trf2, &current_rot, &initial_trf2);
        for ( i=0 ; i<3 ; i++ )
 	   trf2.matrix[i][3] += hull2_shift[i];
-	 
+
        /* transform the point in the second hull
 	  if we are not passing transformations */
        if ( !pass_transforms )
@@ -453,7 +453,7 @@ int main( int argc, char ** argv)
 	  But we don't know whether there's an error yet, so dump the
 	  beginning of the message into a line buffer for now */
        sprintf( outbuff, "%6ld: %08lx+%02d", run, this_seed, instance);
-       
+
        /* save the current value of the simplex record */
        initial_simplex_record = simplex_record;
 
@@ -515,7 +515,7 @@ int main( int argc, char ** argv)
 	one_to_two[d] = - two_to_one[d];
       }
 
-      /* dp_error_val should be zero, to the accuracy of our arithmetic */  
+      /* dp_error_val should be zero, to the accuracy of our arithmetic */
       dp_error_val = sqdist - dot_product( two_to_one, two_to_one);
 
       if ( sqdist>err*err ) {
@@ -534,7 +534,7 @@ int main( int argc, char ** argv)
 	  /* zero was returned, so check that the witness point
 	     lies within both hulls. Requires QHULL
 	     */
-#ifdef QHULL	  
+#ifdef QHULL
 	  nbad1 = num_outside( num_pts, err, &err1, ppoints1, ptrf1, wit1);
 	  nbad2 = num_outside( num_pts, err, &err2, ppoints2, ptrf2, wit2);
 #else
@@ -568,7 +568,7 @@ int main( int argc, char ** argv)
 
    /* scale total_time down to that for just one repeat */
    total_time /= num_repeats;
-   
+
    total_ops = 3 * total_dp + total_mult_divide_only;
    aver_verts = ((double) total_vertices)/num_runs/2;
    aver_dp  = ((double)  total_dp)/num_runs;
@@ -576,7 +576,7 @@ int main( int argc, char ** argv)
    aver_ops = ((double) total_ops)/num_runs;
    aver_zeros = ((double) num_zero_runs)/num_runs;
    aver_dist = total_dist/num_runs;
-	
+
    aver_time = total_time/num_runs * 1000000.0;
 #ifdef GATHER_STATISTICS
    aver_time_g = total_time/total_g_test * 1000000.0;
@@ -597,7 +597,7 @@ int main( int argc, char ** argv)
 	      aver_time, num_repeats, num_errors,
 	      aver_ops, aver_time_op,
 	      aver_zeros*100, aver_dist, elapsed_time);
-   
+
    exit( 0);
    }
 
@@ -669,7 +669,7 @@ static void create_hull( int npts, REAL (*pts)[DIM], VertexID * rings)
 
    return;
    }
-      
+
 #endif /* QHULL */
 
 
@@ -737,11 +737,11 @@ static void create_polyball( int npts, REAL (*pts)[DIM], VertexID * rings)
   double sines[MAX_POINTS], cosines[MAX_POINTS];
 
   radius = MEAN_RADIUS *
-         ( 1.0 - RADIUS_RATIO*radius_factor / 2.0 
+         ( 1.0 - RADIUS_RATIO*radius_factor / 2.0
 	   + RADIUS_RATIO*radius_factor * unit_random( &seed) );
 
   (void) compute_sizes( npts, & p, & q, & r);
-  /* debugging statements 
+  /* debugging statements
     fprintf( stderr, "%d = %d * %d + %d\n", npts, p, q, r);
     first_time1 = 0;
   /**/
@@ -789,7 +789,7 @@ static void create_polyball( int npts, REAL (*pts)[DIM], VertexID * rings)
      pts[npts-1][0] = pts[npts-1][1] = 0;
      pts[npts-1][2] = radius;
    }
-   
+
   if ( rings==0 ) /* then no hill-climbing */
      return;
 
@@ -836,14 +836,14 @@ static void create_polyball( int npts, REAL (*pts)[DIM], VertexID * rings)
    return;
    }
 
-      
+
 /* Compute an initial random shift for a hull
-   */      
+   */
 static void generate_initial_random_shift( REAL pts[DIM])
 {
    double ran;
    int d;
-        
+
    for ( d=0 ; d<3 ; d++ )
    {
       ran = unit_random( &seed) - 0.5;
@@ -852,14 +852,14 @@ static void generate_initial_random_shift( REAL pts[DIM])
 
    return;
    }
-   
+
 /* Add a random translation component to the vector given
-   */      
+   */
 static void add_delta_random_shift( REAL pts[DIM])
 {
    double ran, fact;
    int d;
-        
+
    ran = unit_random( &seed);
    fact = 1 + ran * ran;
 
@@ -871,7 +871,7 @@ static void add_delta_random_shift( REAL pts[DIM])
 
    return;
    }
-   
+
 
 static void generate_small_random_rotation( struct transf * t )
 {
@@ -960,8 +960,8 @@ static void compose_transformations( struct transf * tgt,
 
   return;
 }
-      
-  
+
+
 /* Compute how many points lie further in the direction given than the
    witness point.
    */
@@ -996,7 +996,7 @@ static int num_further( int npts, double errin, double * errout,
 
    return nbad;
    }
-   
+
 #ifdef QHULL
 /* Compute how many planes of the hull of the given set of points
    the given witness point lies outside of.
@@ -1013,7 +1013,7 @@ static int num_outside( int npts, double errin, double * errout,
      transform_hull( npts, pts, trans_pts, t);
 
    /* construct the hull */
-   
+
    nv = sac_qhull( npts, ( t==0 ) ? pts : trans_pts,
 		   (double (*)[3]) 0, (int *) 0, (int *) 0,
 		   &nf, faces);
@@ -1033,7 +1033,7 @@ static int num_outside( int npts, double errin, double * errout,
    return nbad;
    }
 #endif /* QHULL */
-   
+
 /* Vector dot-product function.  We don't use the one defined in gjk.h
    in order to provide some measure of independence.
    */
@@ -1061,7 +1061,7 @@ static void mkid( struct transf * t)
 /* clocktime should return a double, indicating time passing as a number
    of seconds.
    */
-            
+
 #ifndef CLOCKS_PER_SEC /* then why not -- supposed to be ANSI C! */
 #ifdef CLK_TCK
 #define CLOCKS_PER_SEC CLK_TCK
@@ -1081,7 +1081,7 @@ static double clocktime( void)
 
 /* random number generator. Generate a double between zero and one.
    */
-                              
+
 #include <limits.h> /* RAND_MAX should be defined here */
 #ifndef RAND_MAX
 #define RAND_MAX   UINT_MAX

@@ -190,7 +190,7 @@ static void add_simplex_vertex( struct simplex_point * s, int pos,
  * of Gilbert, Johnson and Keerthi, as described in the paper (GJK88)
  * listed below.  It also optionally runs my speed-up extension to this
  * algorithm, as described in (Cam97).
- 
+
  *
  * The first 4 parameters are two pairs of parameters, one pair for
  * each hull; each pair is an object data-structure, plus a
@@ -376,7 +376,7 @@ REAL gjk_distance(
      }
      else { /* normal case */
        compute_subterms( simplex);
-       if ( use_default ) { 
+       if ( use_default ) {
 	 use_default = default_distance( simplex);
        }
        if ( !use_default ) {
@@ -393,7 +393,7 @@ REAL gjk_distance(
 		      simplex->lambdas);
        compute_point( wpt2, simplex->npts, simplex->coords2,
 		      simplex->lambdas);
-      
+
        overd( d) {
 	 displacementv[ d]         = wpt2[d] - wpt1[d];
 	 reverse_displacementv[ d] = - displacementv[d];
@@ -409,16 +409,16 @@ REAL gjk_distance(
 	 reverse_displacementv[ d] = - displacementv[d];
        }
      }
-	 
+
      sqrd = OTHER_DOT_PRODUCT( displacementv, displacementv);
 
      /* if we are using a c-space simplex with DIM_PLUS_ONE
 	points, this is interior to the simplex, and indicates
-	that the original hulls overlap, as does the distance 
+	that the original hulls overlap, as does the distance
 	between them being too small. */
      if ( sqrd<EPSILON ) {
        simplex->error = EPSILON;
-       return sqrd;                 
+       return sqrd;
      }
 
      if ( ! IdentityTransform( tr1) )
@@ -486,7 +486,7 @@ REAL gjk_distance(
        continue;
      }
 
-     /* Abnormal cases! */ 
+     /* Abnormal cases! */
      if ( use_default ) {
        use_default = 0;
      }
@@ -528,13 +528,13 @@ static void compute_subterms( struct simplex_point * simp) {
 
    int i, j, ielt, jelt, s, jsubset, size = simp->npts;
    REAL sum, c_space_points[DIM_PLUS_ONE][DIM];
-   
+
    /* compute the coordinates of the simplex as C-space obstacle points */
    for ( i=0 ; i<size ; i++ )
       for ( j=0 ; j<DIM ; j++ )
          c_space_points[i][j] =
             simp->coords1[i][j] - simp->coords2[i][j];
-            
+
    /* compute the dot product terms */
    for ( i=0 ; i<size ; i++ )
       for ( j=i ; j<size ; j++ )
@@ -547,7 +547,7 @@ static void compute_subterms( struct simplex_point * simp) {
          delta( s, elts( s, 0)) = ONE;
          continue;
       }
-         
+
       if ( card( s)==2 ) {  /* the base case for the recursion */
          delta( s, elts( s, 0)) =
             prod( elts( s, 1), elts( s, 1)) -
@@ -565,7 +565,7 @@ static void compute_subterms( struct simplex_point * simp) {
          jelt = elts( s, j);
          jsubset = pred( s, j);
          sum = 0;
-         /* for each element of subset jsubset */   
+         /* for each element of subset jsubset */
          for ( i=0 ; i < card( jsubset) ; i++ ) {
             ielt = elts( jsubset, i);
             sum += DO_MULTIPLY(
@@ -573,7 +573,7 @@ static void compute_subterms( struct simplex_point * simp) {
                prod( ielt, elts( jsubset, 0)) - prod( ielt, jelt)
                   );
 	 }
-            
+
          delta( s, jelt) = sum;
       }
    }
@@ -587,9 +587,9 @@ static void compute_subterms( struct simplex_point * simp) {
  * in the master point list, and computes a pair of witness points for the
  * minimum distance vector between the simplices.  This vector is indicated
  * by setting the values lambdas[] in the given array, and returning the
- * number of non-zero values of lambda. 
+ * number of non-zero values of lambda.
  */
- 
+
 static int default_distance( struct simplex_point * simplex) {
 
    int s, j, k, ok, size;
@@ -631,13 +631,13 @@ static int default_distance( struct simplex_point * simplex) {
          is if the delta term for any successor subset is positive, as this
          indicates a direction on the appropriate higher dimensional simplex
          in which the distance gets shorter.
-         */ 
+         */
 
       for ( k=0 ; ok && k < size - card( s) ; k++ ) {
          if ( delta( succ( s, k),  non_elts( s, k))>0 )
             ok = 0;
       }
-            
+
 #ifdef TEST_BACKUP_PROCEDURE
       /* define TEST_BACKUP_PROCEDURE in gjk.h to test accuracy
          of the the backup procedure */
@@ -686,7 +686,7 @@ static void backup_distance( struct simplex_point * simplex) {
       distsq_num[s] = ZERO;
       for ( j=0 ; j<card( s) ; j++ )
          for ( k=0 ; k<card( s) ; k++ )
-            distsq_num[s] += DO_MULTIPLY( 
+            distsq_num[s] += DO_MULTIPLY(
                DO_MULTIPLY( delta( s, elts( s, j)), delta( s, elts( s, k))),
                prod( elts( s, j), elts( s, k))
 	                             );
@@ -816,7 +816,7 @@ support_hill_climbing(
 	  IncrementEdge( obj, index) ) {
 
       neighbour = VertexOfEdge( obj, index);
-      
+
       /* Check that we haven't already visited this one in the
 	 last outer iteration.  This is to avoid us calculating
 	 the dot-product with vertices we've already looked at.
@@ -924,7 +924,7 @@ static void initialise_simplex_distance( void) {
       subsets, namely integer s corresponds to the subset that contains
       element e if and only if there is a one in the e'th position in
       the binary expansion of s.
-      
+
       The arrays set are as follows:
       *  card( s) tells how many elements are in the subset s.
       *  max_elt( s) gives the maximum index of all the elements in
@@ -941,11 +941,11 @@ static void initialise_simplex_distance( void) {
          element, namely the element with index non_elts( s, i).
 
       The elements indexed in each elts( s,) and non_elts( s,) are
-      listed in order of increasing index. 
-     */  
+      listed in order of increasing index.
+     */
 
    /* now for every non-empty subset s (indexed for
-      0 < s < TWICE_TWO_TO_DIM ) set the elements of card( s), 
+      0 < s < TWICE_TWO_TO_DIM ) set the elements of card( s),
       max_elt( s), elts( s,), pred( s,), and succ( s,).
       */
 
@@ -954,7 +954,7 @@ static void initialise_simplex_distance( void) {
          in subset s if and only if s DIV 2^e is odd. */
       two_to_e = 1;
       next_elt = next_non_elt = 0;
-      
+
       for ( e=0 ; e<DIM_PLUS_ONE ; e++ ) {
 	if ( (s/two_to_e) % 2 == 1 ) {
             /* so e belongs to subset s */
@@ -967,7 +967,7 @@ static void initialise_simplex_distance( void) {
 	}
         else
             non_elts( s, next_non_elt++) = e;
-            
+
          two_to_e *= 2;
       }
       card( s) = next_elt;
@@ -978,7 +978,7 @@ static void initialise_simplex_distance( void) {
    card( 0) = 0;   max_elt( 0) = -1;
    for ( e=0 ; e<DIM_PLUS_ONE ; e++ )
       non_elts( 0, e) = e;
-   
+
 
    simplex_distance_initialised = 1;
 

@@ -202,7 +202,7 @@ struct simplex_point {
 };
 
 /* Even this algorithm has an epsilon (fudge) factor.  It basically indicates
-   how far apart two points have to be to declared different, expressed 
+   how far apart two points have to be to declared different, expressed
    loosely as a proportion of the `average distance' between the point sets.
  */
 #define EPSILON ((REAL) 1.0e-8)
@@ -239,7 +239,7 @@ int gjk_extract_point( struct simplex_point *simp,
  * of Gilbert, Johnson and Keerthi, as described in the paper (GJK88)
  * listed below.  It also optionally runs my speed-up extension to this
  * algorithm, as described in (Cam97).
- 
+
  *
  * The first 4 parameters are two pairs of parameters, one pair for
  * each hull; each pair is an object data-structure, plus a
