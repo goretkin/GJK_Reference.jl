@@ -13,6 +13,7 @@
 /**/
 #include "assert.h"
 
+#include "gjk_parameters.h"
 #define GATHER_STATISTICS
 
 /* defining TEST_BACKUP_PROCEDURE disables the default simplex
@@ -22,13 +23,6 @@
 #define TEST_BACKUP_PROCEDURE
 /**/
 
-#define DIM		3       /* dimension of space (i.e., x/y/z = 3) */
-/* REAL is the type of a coordinate, INDEX of an index into the point arrays */
-typedef double	REAL;
-/* Arithmetic operators on type REAL: defined here to make it
-   easy (say) to use fixed point arithmetic. Note that addition
-   and subtraction are assumed to work normally.
-   */
 
 #define MULTIPLY( a, b)		((a)*(b))
 #define DIVIDE( num, den)	((num)/(den))
@@ -136,7 +130,7 @@ typedef struct Object_structure * Object;
  * x to the vector y, where
  *   y[i] = M[i][0]*x[0] + M[i][1]*x[1] + M[i][2]*x[2] + M[i][3]
  */
-typedef double (* Transform)[DIM+1];
+typedef REAL (* Transform)[DIM+1];
 #define IdentityTransform( t)	((t)==0)
 #define ExtractTranslation( t, v) { int i; overd(i) v[i] = t[i][DIM]; }
 #define ApplyTransform( t, obj, v, tgt) apply_trans( t, obj->vertices[v], tgt)
@@ -200,18 +194,6 @@ struct simplex_point {
      Alternatively, G/(x.x) is a relative error bound on the result.
   */
 };
-
-/* Even this algorithm has an epsilon (fudge) factor.  It basically indicates
-   how far apart two points have to be to declared different, expressed
-   loosely as a proportion of the `average distance' between the point sets.
- */
-#define EPSILON ((REAL) 1.0e-8)
-
-/* TINY is used in one place, to indicate when a positive number is getting
-   so small that we loose confidence in being able to divide a positive
-   number smaller than it into it, and still believing the result.
-   */
-#define TINY	((REAL) 1.0e-20)  /* probably pessimistic! */
 
 
 /* MAX_RING_SIZE gives an upper bound on the size of the array of rings

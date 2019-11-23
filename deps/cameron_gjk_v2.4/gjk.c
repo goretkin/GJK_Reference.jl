@@ -308,7 +308,7 @@ REAL gjk_distance(
    REAL * fdisp, * rdisp;
    struct simplex_point local_simplex;
    int d, compute_both_witnesses, use_default, first_iteration, max_iterations;
-   double oldsqrd;
+   REAL oldsqrd;
 
    assert( NumVertices( obj1)>0 && NumVertices( obj2)>0 );
 
