@@ -77,12 +77,16 @@ get_dim(::GJK_Object_structure{GJK_DIM, GJK_REAL}) where {GJK_DIM, GJK_REAL} = G
 get_real(::GJK_Object_structure{GJK_DIM, GJK_REAL}) where {GJK_DIM, GJK_REAL} = GJK_REAL
 
 # TODO check size of matrix to set GJK_DIM?
+"""
+gjk.c expects the transformation matrix in row-major, multiplying on the left.
+Julia arrays are column-major. Conceptualize it as an operator that multiplies on the right.
+"""
 function gjk_transform_pointer(GJK_DIM, GJK_REAL, tr::Union{Nothing, Matrix{GJK_REAL2}}) where {GJK_REAL2}
   return (if tr === nothing
     Ptr{GJK_REAL}(0)
   else
     @assert GJK_REAL == GJK_REAL2
-    @assert size(tr) == (GJK_DIM, GJK_DIM+1)
+    @assert size(tr) == (GJK_DIM+1, GJK_DIM)
     pointer(tr)
   end)
 end

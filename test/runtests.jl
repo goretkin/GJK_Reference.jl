@@ -10,10 +10,9 @@ onfail(body, _::Tuple{Test.Fail,T}) where {T} = body()
 
 #TODO test transforms!
 @testset "one-point hulls" begin
-    for GJK_REAL = [Cdouble, Cfloat], GJK_DIM = 3:3, i = 1:100
+    for GJK_REAL = [Cdouble, Cfloat], GJK_DIM = 3:3, tr = [nothing, Matrix{GJK_REAL}(I(GJK_DIM+1)[1:GJK_DIM+1, 1:GJK_DIM])], i = 1:100
         p1 = tuple(rand(GJK_REAL, GJK_DIM)...)
         p2 = tuple(rand(GJK_REAL, GJK_DIM)...)
-        tr = nothing # Matrix{GJK_REAL}(I(GJK_DIM+1)[1:GJK_DIM, 1:GJK_DIM+1])
         r = GJK_Reference.gjk_distance([p1], tr, [p2], tr)
         doprint = false
 
