@@ -4,6 +4,9 @@ import Libdl
 include("../deps/param_string.jl")
 build_path = joinpath(@__DIR__, "..", "deps", "build")
 
+# TODO use https://github.com/MikeInnes/Requires.jl to conditionally load
+include("CoordinateTransformationsGlue.jl")
+import .CoordinateTransformationsGlue: allocate_gjk_tr, gjk_tr!
 
 struct GJK_Object_structure{GJK_DIM, GJK_REAL}
   numpoints::Cint
